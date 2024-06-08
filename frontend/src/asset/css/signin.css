@@ -1,0 +1,33 @@
+.signin {
+  background: var(--darkblue);
+
+  padding-top: 50px;
+  padding-bottom: 50px;
+  min-height: calc(100vh - 100px);
+  height: calc(100vh - 100px);
+  max-height: calc(100vh - 100px);
+}
+.signin h3 {
+  color: var(--skyblue);
+  font-weight: 600;
+  font-size: 40px;
+}
+.signin .primary_button {
+  border: 1px solid var(--pink);
+  background: var(--pink);
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: var(--white);
+  font-weight: 600;
+}
+.signin .border_button {
+  border: 1px solid var(--pink);
+  background: transparent;
+  color: var(--pink);
+  padding: 5px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.signin .link {
+  color: var(--skyblue);
+}

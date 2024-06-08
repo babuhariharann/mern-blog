@@ -1,0 +1,10 @@
+.input_field {
+  background: var(--gray);
+  padding: 10px;
+  border: 1px solid var(--theme_black);
+  color: var(--white);
+  border-radius: 10px;
+}
+.input_field:focus-visible {
+  outline: none;
+}

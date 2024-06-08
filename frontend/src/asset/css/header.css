@@ -1,0 +1,39 @@
+.header {
+  height: 70px;
+  background: var(--theme_black);
+}
+.header .logo_link {
+  color: var(--pink);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 5px;
+}
+
+.header .input_wraper {
+  border: 1px solid gray;
+  padding: 6px;
+  border-radius: 5px;
+}
+.header .input_wraper input {
+  color: var(--white);
+}
+.header .input_wraper input::placeholder {
+  color: var(--white);
+}
+.header .input_wraper input:focus-visible {
+  outline: none;
+}
+
+.header .page_navigation a {
+  text-decoration: none;
+  color: var(--white) !important;
+}
+
+.header .auth_section .pink_btn {
+  border: 1px solid var(--pink);
+  background: var(--pink);
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: var(--white);
+  font-weight: 600;
+}
