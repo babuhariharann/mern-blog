@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-
-const connectDataBase = async () => {
+const ConnectDataBase = async () => {
   await mongoose
-    .connect(process.env.MONGO)
+    // .connect(process.env.MONGO_URL)
+    .connect(
+      "mongodb+srv://babuhariharan:babuhariharan@cluster0.vo1jvkh.mongodb.net/"
+    )
+
     .then(() => {
       console.log("Successfully connected MongoDB");
     })
@@ -12,4 +16,4 @@ const connectDataBase = async () => {
     });
 };
 
-export default connectDataBase;
+export default ConnectDataBase;

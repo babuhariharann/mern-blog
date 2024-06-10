@@ -28,15 +28,21 @@ const Signup = () => {
     if (!email || !password || !username) {
       return setError("Please fill all the form");
     }
+    setError(null);
+    setLoading(true);
     try {
-      setLoading(true);
       const responseData = await SignupAPI(inputData);
-      console.log("data", responseData);
-      if (responseData.success === true) {
-        return "Error data";
+
+      if (responseData.success) {
+        navigate("/sign-in");
+        setError(null);
+      } else {
+        setError(responseData.message || "Signup failed");
       }
     } catch (err) {
-      console.log("err", err);
+      setError("An error occured.Please try again");
+    } finally {
+      setLoading(false);
     }
   };
 
