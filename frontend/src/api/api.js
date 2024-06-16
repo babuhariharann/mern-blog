@@ -10,10 +10,12 @@ export const SignupAPI = async (data) => {
       email,
       password,
     });
-    const reponseData = await res.data;
-    return reponseData;
+    return res.data;
   } catch (err) {
-    console.log("Error while signup", err);
+    return {
+      success: false,
+      message: err.response ? err.response.data.message : "An error occured",
+    };
   }
 };
 export const SigninAPI = () => {

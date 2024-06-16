@@ -28,15 +28,25 @@ const Signup = () => {
     if (!email || !password || !username) {
       return setError("Please fill all the form");
     }
+    setError(null);
+    setLoading(true);
     try {
-      setLoading(true);
       const responseData = await SignupAPI(inputData);
       console.log("data", responseData);
-      if (responseData.success === true) {
-        return "Error data";
+      if (responseData && responseData.success) {
+        navigate("/sign-in");
+        setError(null);
+      } else {
+        setError(
+          responseData && responseData.message
+            ? responseData.message
+            : "Signup Failed"
+        );
       }
     } catch (err) {
-      console.log("err", err);
+      setError(err.message || "An error occurred during signup");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +94,9 @@ const Signup = () => {
 
               {error && <p className="text-danger mb-0">{error}</p>}
               <div className="">
-                <button className="mt-4 primary_button">Sign Up</button>
+                <button className="mt-4 primary_button">
+                  {loading ? "Loading..." : "Signup"}
+                </button>
               </div>
 
               <button type="submit" className="border_button mt-4">
