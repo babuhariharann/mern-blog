@@ -42,3 +42,25 @@ export const Signup = async (req, res, next) => {
     next(err);
   }
 };
+
+export const SignIn = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (email === "" || password === "" || !email || !password) {
+    return next(ErrorHandler(404, "All fields required"));
+  }
+  try {
+    const validUser = await User.findOne({ email });
+    if (!validUser) {
+      return next(ErrorHandler(404, "User Not Found"));
+    }
+    const checkPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!checkPassword) {
+      return next(ErrorHandler("404", "Password Does not match"));
+    }
+    return res
+      .status(200)
+      .json({ status: true, message: "Signin Successfully" });
+  } catch (err) {
+    next(err);
+  }
+};

@@ -32,15 +32,19 @@ const Signup = () => {
     setLoading(true);
     try {
       const responseData = await SignupAPI(inputData);
-
-      if (responseData.success) {
+      console.log("data", responseData);
+      if (responseData && responseData.success) {
         navigate("/sign-in");
         setError(null);
       } else {
-        setError(responseData.message || "Signup failed");
+        setError(
+          responseData && responseData.message
+            ? responseData.message
+            : "Signup Failed"
+        );
       }
     } catch (err) {
-      setError("An error occured.Please try again");
+      setError(err.message || "An error occurred during signup");
     } finally {
       setLoading(false);
     }
@@ -90,7 +94,9 @@ const Signup = () => {
 
               {error && <p className="text-danger mb-0">{error}</p>}
               <div className="">
-                <button className="mt-4 primary_button">Sign Up</button>
+                <button className="mt-4 primary_button">
+                  {loading ? "Loading..." : "Signup"}
+                </button>
               </div>
 
               <button type="submit" className="border_button mt-4">
