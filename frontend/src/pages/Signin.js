@@ -2,22 +2,51 @@ import React, { useState } from "react";
 
 import "../asset/css/signin.css";
 import InputField from "../component/InputField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { SigninAPI } from "../api/api";
 
 const Signin = () => {
-  const [inputData, setInputData] = useState({
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const [signinData, setSigninData] = useState({
     email: "",
     password: "",
   });
+  const { email, password } = signinData;
 
-  const { email, password } = inputData;
-
-  const handleOnChange = (e) => {
+  const handleSigninChange = (e) => {
     const { name, value } = e.target;
-    setInputData((prev) => ({ ...prev, [name]: value }));
+    setSigninData((prev) => ({ ...prev, [name]: value }));
   };
 
-  console.log("inputdata", inputData);
+  const handleSigninSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password || email === "" || password === "") {
+      return setError("All fields are required");
+    }
+    setError(null);
+    setLoading(true);
+    try {
+      const signinResponse = await SigninAPI(signinData);
+      console.log("singinresponse", signinResponse);
+      if (signinResponse?.status) {
+        navigate("/");
+        setError(null);
+      } else {
+        setError(
+          signinResponse && signinResponse.message
+            ? signinResponse.message
+            : "Sign-in Failed"
+        );
+      }
+    } catch (err) {
+      setError(err.message || "An error occured while sign-in");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="signin">
       <div className="container">
@@ -28,7 +57,7 @@ const Signin = () => {
             </div>
           </div>
           <div className="col-6">
-            <div>
+            <form onSubmit={handleSigninSubmit}>
               <div className="d-flex flex-column align-items-start">
                 <label className="ms-0"> Your email</label>
                 <InputField
@@ -36,7 +65,7 @@ const Signin = () => {
                   type="email"
                   placeholder="Enter email"
                   value={email}
-                  onChange={handleOnChange}
+                  onChange={handleSigninChange}
                 />
               </div>
               <div className="d-flex flex-column align-items-start mt-3">
@@ -46,12 +75,15 @@ const Signin = () => {
                   type="password"
                   placeholder="Enter password"
                   value={password}
-                  onChange={handleOnChange}
+                  onChange={handleSigninChange}
                 />
               </div>
               <div className="">
-                <button className="mt-4 primary_button">Sign In</button>
+                <button className="mt-4 primary_button" type="submit">
+                  Sign In
+                </button>
               </div>
+              {error && <p className="text-danger mb-0">{error}</p>}
 
               <button className="border_button mt-4">
                 Continue with google
@@ -62,7 +94,7 @@ const Signin = () => {
                   Sign up
                 </Link>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 // import package
 
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import User from "../model/user.model.js";
 import { ErrorHandler } from "../utils/ErrorHandler.js";
@@ -56,10 +57,22 @@ export const SignIn = async (req, res, next) => {
     const checkPassword = bcryptjs.compareSync(password, validUser.password);
     if (!checkPassword) {
       return next(ErrorHandler("404", "Password Does not match"));
+      // return res
+      //   .status(200)
+      //   .json({ status: true, message: "password does not match" });
     }
+    const { password: pass, ...rest } = validUser._doc;
+    const token = jwt.sign(
+      {
+        id: validUser._id,
+      },
+      "secret"
+    );
+    console.log("pass", pass);
     return res
       .status(200)
-      .json({ status: true, message: "Signin Successfully" });
+      .cookie("access_token", token, { httpOnly: true })
+      .json({ status: true, message: "Signin Successfully", rest });
   } catch (err) {
     next(err);
   }

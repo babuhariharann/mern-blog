@@ -15,10 +15,27 @@ export const SignupAPI = async (data) => {
   } catch (err) {
     return {
       success: false,
-      message: err.response ? err.response.data.message : "An error occured",
+      message: err?.response?.data?.message
+        ? err?.response?.data?.message
+        : err?.message,
     };
   }
 };
-export const SigninAPI = () => {
-  console.log("signin");
+export const SigninAPI = async (singinValue) => {
+  const { email, password } = singinValue;
+  console.log("email", email, password);
+  try {
+    const response = await axios.post(`${localHostName}/api/auth/signin`, {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message
+        ? error?.response?.data?.message
+        : error?.message,
+    };
+  }
 };
