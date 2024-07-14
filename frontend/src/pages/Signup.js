@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import "../asset/css/signin.css";
 import InputField from "../component/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { SignupAPI } from "../api/api";
+import OAuth from "../component/OAuth";
 
 const Signup = () => {
   const [inputData, setInputData] = useState({
@@ -18,10 +19,10 @@ const Signup = () => {
 
   const { username, email, password } = inputData;
 
-  const handleOnChange = (e) => {
+  const handleOnChange = useCallback((e) => {
     const { name, value } = e.target;
     setInputData((prev) => ({ ...prev, [name]: value.trim() }));
-  };
+  }, []);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -50,6 +51,8 @@ const Signup = () => {
     }
   };
 
+  console.log("inputData", inputData)
+
   return (
     <div className="signin">
       <div className="container">
@@ -57,6 +60,7 @@ const Signup = () => {
           <div className="col-6 d-flex align-items-center justify-content-center">
             <div>
               <h3>Sign Up</h3>
+              <h5>{(Math.random() * 100).toFixed()}</h5>
             </div>
           </div>
           <div className="col-6">
@@ -70,6 +74,15 @@ const Signup = () => {
                   value={username}
                   onChange={handleOnChange}
                 />
+                {/* <input
+                  name="username"
+                  type="text"
+                  className="input_field"
+                  placeholder="Enter username"
+                  value={username}
+                  onChange={handleOnChange}
+                />
+                <h5>{(Math.random() * 100).toFixed()}</h5> */}
               </div>
               <div className="d-flex flex-column align-items-start mt-3">
                 <label className="ms-0"> Your email</label>
@@ -80,6 +93,15 @@ const Signup = () => {
                   value={email}
                   onChange={handleOnChange}
                 />
+                {/* <input
+                  name="email"
+                  type="email"
+                  className="input_field"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={handleOnChange}
+                />
+                <h5>{(Math.random() * 100).toFixed()}</h5> */}
               </div>
               <div className="d-flex flex-column align-items-start mt-3">
                 <label className="ms-0"> Your Password</label>
@@ -90,6 +112,15 @@ const Signup = () => {
                   value={password}
                   onChange={handleOnChange}
                 />
+                {/* <input
+                  name="password"
+                  type="password"
+                  className="input_field"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={handleOnChange}
+                />
+                <h5>{(Math.random() * 100).toFixed()}</h5> */}
               </div>
 
               {error && <p className="text-danger mb-0">{error}</p>}
@@ -99,11 +130,10 @@ const Signup = () => {
                 </button>
               </div>
 
-              <button type="submit" className="border_button mt-4">
-                Continue with google
-              </button>
+              <OAuth />
               <p className="mt-3">
                 Already have an account?{" "}
+                {/* <Link className="link" to="/sign-in"> */}
                 <Link className="link" to="/sign-in">
                   Sign in
                 </Link>

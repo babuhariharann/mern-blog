@@ -1,10 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import "../asset/css/input.css";
 
-const InputField = (props) => {
+const InputField = memo((props) => {
   const { name, type, placeholder, onChange, value } = props;
   return (
     <div className="mt-2">
+      <h5>{(Math.random() * 100).toFixed()}</h5>
       <input
         name={name}
         type={type}
@@ -15,6 +16,6 @@ const InputField = (props) => {
       />
     </div>
   );
-};
+});
 
 export default InputField;

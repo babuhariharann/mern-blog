@@ -8,6 +8,7 @@
   --darkblue: #10172a;
   --skyblue: #0694a2;
   --gray: #334155;
+  --gray_opacity: #8080806b
 }
 
 * {
@@ -15,6 +16,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   color: var(--white) !important;
   background: var(--darkblue) !important;

@@ -1,23 +1,74 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import "../asset/css/signin.css";
 import InputField from "../component/InputField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { SigninAPI } from "../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  singinFailure,
+  singinStart,
+  singinSuccess,
+} from "../redux/user/userSlice";
+import OAuth from "../component/OAuth";
 
 const Signin = () => {
-  const [inputData, setInputData] = useState({
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.user);
+
+  console.log("loading", loading);
+
+  const navigate = useNavigate();
+  const [signinData, setSigninData] = useState({
     email: "",
     password: "",
   });
+  const { email, password } = signinData;
 
-  const { email, password } = inputData;
-
-  const handleOnChange = (e) => {
+  const handleSigninChange = useCallback((e) => {
     const { name, value } = e.target;
-    setInputData((prev) => ({ ...prev, [name]: value }));
-  };
+    setSigninData((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
-  console.log("inputdata", inputData);
+  const handleSigninSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password || email === "" || password === "") {
+      // return setError("All fields are required");
+      return dispatch(singinFailure("All fields are required"));
+    }
+    // setError(null);
+    // setLoading(true);
+    dispatch(singinStart());
+    try {
+      const signinResponse = await SigninAPI(signinData);
+      console.log("singinresponse", signinResponse);
+      if (signinResponse?.status) {
+        navigate("/");
+        // setError(null);
+        dispatch(singinSuccess(signinResponse?.rest));
+      } else {
+        // setError(
+        //   signinResponse && signinResponse.message
+        //     ? signinResponse.message
+        //     : "Sign-in Failed"
+        // );
+        dispatch(
+          singinFailure(
+            signinResponse && signinResponse.message
+              ? signinResponse.message
+              : "Sign-in Failed"
+          )
+        );
+      }
+    } catch (err) {
+      // setError(err.message || "An error occured while sign-in");
+      dispatch(singinFailure(err.message || "An error occured while sign-in"));
+    }
+  };
   return (
     <div className="signin">
       <div className="container">
@@ -28,7 +79,7 @@ const Signin = () => {
             </div>
           </div>
           <div className="col-6">
-            <div>
+            <form onSubmit={handleSigninSubmit}>
               <div className="d-flex flex-column align-items-start">
                 <label className="ms-0"> Your email</label>
                 <InputField
@@ -36,7 +87,7 @@ const Signin = () => {
                   type="email"
                   placeholder="Enter email"
                   value={email}
-                  onChange={handleOnChange}
+                  onChange={handleSigninChange}
                 />
               </div>
               <div className="d-flex flex-column align-items-start mt-3">
@@ -46,23 +97,24 @@ const Signin = () => {
                   type="password"
                   placeholder="Enter password"
                   value={password}
-                  onChange={handleOnChange}
+                  onChange={handleSigninChange}
                 />
               </div>
               <div className="">
-                <button className="mt-4 primary_button">Sign In</button>
+                <button className="mt-4 primary_button" type="submit">
+                  {loading ? "Loading" : "Sign In"}
+                </button>
               </div>
+              {error && <p className="text-danger mb-0">{error}</p>}
 
-              <button className="border_button mt-4">
-                Continue with google
-              </button>
+              <OAuth />
               <p className="mt-3">
                 Don't have account?{" "}
                 <Link className="link" to="/sign-up">
                   Sign up
                 </Link>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
