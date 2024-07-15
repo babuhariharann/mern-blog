@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 // local import
-import connectDataBase from "./db/ConnectDatabase.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import ConnectDataBase from "./db/ConnectDataBase.js";
 
 
 // dotenv.config();
@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser())
 
-connectDataBase();
+ConnectDataBase();
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
