@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import "../asset/css/signin.css";
 import InputField from "../component/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { SigninAPI } from "../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  singinFailure,
+  singinStart,
+  singinSuccess,
+} from "../redux/user/userSlice";
+import OAuth from "../component/OAuth";
 
 const Signin = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.user);
+
+  console.log("loading", loading);
 
   const navigate = useNavigate();
   const [signinData, setSigninData] = useState({
@@ -16,35 +29,44 @@ const Signin = () => {
   });
   const { email, password } = signinData;
 
-  const handleSigninChange = (e) => {
+  const handleSigninChange = useCallback((e) => {
     const { name, value } = e.target;
     setSigninData((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
   const handleSigninSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || email === "" || password === "") {
-      return setError("All fields are required");
+      // return setError("All fields are required");
+      return dispatch(singinFailure("All fields are required"));
     }
-    setError(null);
-    setLoading(true);
+    // setError(null);
+    // setLoading(true);
+    dispatch(singinStart());
     try {
       const signinResponse = await SigninAPI(signinData);
       console.log("singinresponse", signinResponse);
       if (signinResponse?.status) {
         navigate("/");
-        setError(null);
+        // setError(null);
+        dispatch(singinSuccess(signinResponse?.rest));
       } else {
-        setError(
-          signinResponse && signinResponse.message
-            ? signinResponse.message
-            : "Sign-in Failed"
+        // setError(
+        //   signinResponse && signinResponse.message
+        //     ? signinResponse.message
+        //     : "Sign-in Failed"
+        // );
+        dispatch(
+          singinFailure(
+            signinResponse && signinResponse.message
+              ? signinResponse.message
+              : "Sign-in Failed"
+          )
         );
       }
     } catch (err) {
-      setError(err.message || "An error occured while sign-in");
-    } finally {
-      setLoading(false);
+      // setError(err.message || "An error occured while sign-in");
+      dispatch(singinFailure(err.message || "An error occured while sign-in"));
     }
   };
   return (
@@ -80,14 +102,12 @@ const Signin = () => {
               </div>
               <div className="">
                 <button className="mt-4 primary_button" type="submit">
-                  Sign In
+                  {loading ? "Loading" : "Sign In"}
                 </button>
               </div>
               {error && <p className="text-danger mb-0">{error}</p>}
 
-              <button className="border_button mt-4">
-                Continue with google
-              </button>
+              <OAuth />
               <p className="mt-3">
                 Don't have account?{" "}
                 <Link className="link" to="/sign-up">

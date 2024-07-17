@@ -5,6 +5,10 @@ import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./component/PrivateRoute";
+import OnlyAdminPrivateRoute from "./component/OnlyAdminPrivateRoute";
+import CreatePost from "./pages/CreatePost";
 
 const App = () => {
   return (
@@ -14,6 +18,13 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<OnlyAdminPrivateRoute />}>
+          <Route path='/create-post' element={<CreatePost />} />
+        </Route>
+
       </Routes>
       <Footer />
     </div>

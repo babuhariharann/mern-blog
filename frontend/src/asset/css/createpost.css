@@ -1,0 +1,19 @@
+.create-post__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.create-post__header input {
+  display: flex;
+  flex: 1;
+  background: transparent;
+  color: #fff;
+  border: 1px solid gray;
+  min-height: 50px;
+}
+
+.ql-editor {
+  min-height: 250px;
+}
