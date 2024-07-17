@@ -16,14 +16,15 @@ const DashProfile = () => {
 
   const { currentUser, loading } = useSelector((state) => state?.user);
   const { email, username, profilePicture, isAdmin } = currentUser;
-  console.log('email', email)
   const [userFormData, setUserFormData] = useState({
     email,
     username,
     password: ""
-  })
+  });
 
-  console.log('currentuserprofile', currentUser);
+
+
+  console.log('isadmin', isAdmin);
 
   const handleDataUpdate = useCallback((e) => {
     const { name, value } = e.target
@@ -83,6 +84,7 @@ const DashProfile = () => {
     }
   }
 
+
   return (
     <div className='dashprofile d-flex flex-column align-items-center'>
       <h5 className='text-warning text-center'>Profile</h5>
@@ -106,7 +108,9 @@ const DashProfile = () => {
           {loading ? "Updating..." : "Update"}
         </button>
 
-
+        {isAdmin && <div className='my-3'>
+          <button type='submit' className='btn btn-success w-100' onClick={() => navigate('/create-post')} >Create Post</button>
+        </div>}
       </form >
 
       <div className='d-flex align-items-center justify-content-between mt-4'>

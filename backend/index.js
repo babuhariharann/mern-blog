@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 // local import
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import postRouter from "./routes/post.routes.js"
 import ConnectDataBase from "./db/ConnectDataBase.js";
 
 
@@ -29,7 +30,7 @@ ConnectDataBase();
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/post", authRouter);
+app.use("/api/post", postRouter);
 
 
 app.listen(5000, () => {

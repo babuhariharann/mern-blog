@@ -15,7 +15,6 @@ const Header = () => {
   // const { isAdmin } = currentUser
   const [showProfileDetails, setShowProfileDetails] = useState(false)
 
-  console.log("currentuser", currentUser)
 
   const handleSignin = () => {
     navigate("/sign-in");

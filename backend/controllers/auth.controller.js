@@ -66,6 +66,7 @@ export const SignIn = async (req, res, next) => {
       //   .json({ status: true, message: "password does not match" });
     }
     const { password: pass, ...rest } = validUser._doc;
+    console.log('isadmin', validUser.isAdmin)
     const token = jwt.sign(
       {
         id: validUser._id,
