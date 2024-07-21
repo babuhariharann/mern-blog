@@ -11,7 +11,10 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
-  const { currentUser } = useSelector((state) => state?.user)
+  // const { currentUser } = useSelector((state) => state?.user)
+  const currentUser = useSelector((state) => state?.user)
+  console.log('currentuser', currentUser)
+
   // const { isAdmin } = currentUser
   const [showProfileDetails, setShowProfileDetails] = useState(false)
 

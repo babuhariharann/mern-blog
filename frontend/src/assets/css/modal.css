@@ -1,0 +1,183 @@
+.modal-content {
+    position: relative;
+    width: 500px;
+    max-height: 10%;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0px 2px 6px 3px #00000087;
+    border: 1px solid #00000087;
+    margin: 0 auto;
+    outline: 0;
+    border-radius: 20px;
+}
+.modal-header{
+    display: block; 
+}
+.calendar .modal-header{
+    display: flex;
+}
+.calendar .modal-header {
+    padding: 15px 20px;
+}
+.calendar .close {
+   padding: 17px 0px !important;
+   margin-right: 0% !important;
+}
+
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    text-align: left;
+    font-size: 25px !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    /* color: #000; */
+    color: var(--color-text);
+}
+.modal-header .btn-close {
+    position: absolute;
+    right: -10px;
+    top: 0;
+}
+
+.modal-body{
+    text-align: center;
+}
+.connectwallet{width: 100%;}
+.modal input{
+    --webit-appearance: none;
+    appearance: none;
+    border-bottom: 1px solid #9d9d9e;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    border-radius: 0;
+}
+.receives{
+    /* color: #cbcbcb; */
+    color: #fff;
+    font-family: 'Work Sans', sans-serif !important;
+}
+.servicefee{
+    color: var(--color-text);
+    font-family: 'Work Sans', sans-serif !important;
+    font-size: 14px;
+}
+.modal input:focus-visible{outline: none;border-bottom: 1px solid #ff008e ;border-top: none;border-left: none;border-right: none;}
+.modal input:focus{box-shadow:none;}
+.approvetransaction {margin-top: 2px;}
+.approvetransaction h2{font-size: 20px; font-weight: 700;color: var(--color-text);}
+@media(max-width:991px){
+    .modal-title{
+        text-align: left;
+    }
+}
+@media(max-width:767px){
+    .modal-title{
+        text-align: left;
+    }
+}
+@media(max-width:575px){
+    .modal-title{
+        text-align: left;
+    font-size: 14px !important;
+    }
+    /* .modal-content{
+        max-height: 700px;
+    } */
+    .modal-header .btn-close{
+        /* right: 17px;
+        top: 18px; */
+        right: -12px;
+        top:-10px;
+    }
+    
+}
+.transfer_token .item_imgs{max-height:200px;min-height:200px;border-radius:20px;}
+.transfer_token .item_imgs img{max-width:100%;min-width:100%;min-height:200px;max-height:200px;object-fit:cover;border-radius:20px}
+.modal .modal-dialog .modal-content .modal-body {
+    padding: 20px 39px;}
+
+   
+
+    @media(max-width:575px){
+        /* .modal .modal-dialog .modal-content .modal-body {
+            height: 430px;
+            overflow-y: auto;
+         } */
+         .modal .modal-dialog .modal-content .modal-body::-webkit-scrollbar-track
+     {
+         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+         background-color: transparent;
+     }
+     
+     .modal .modal-dialog .modal-content .modal-body::-webkit-scrollbar
+     {
+         width: 1px;
+         background-color: transparent !important;
+     }
+     
+     .modal .modal-dialog .modal-content .modal-body::-webkit-scrollbar-thumb
+     {
+         background-color: transparent;
+         border: 2px solid transparent;
+     }
+        .modal .modal-dialog .modal-content .modal-body {
+            padding: 20px 15px !important;
+        }
+        .modal .modal-dialog .modal-content {
+            margin: 10px !important;
+        }
+    }
+
+
+.modal .secondary{
+    padding: 10px 100px;
+    font-size: 14px;
+    background-color:var(--violent-color);
+    color: #fff;
+    border: none;
+    box-sizing: border-box;
+    font-weight: 700;
+    /* padding: 10px 36px;
+    border-radius: 99px; */
+    padding: 10px 20px;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    width:45%;
+}
+.modal .secondary:hover{
+    background-color:var(--trans-color);
+    color: var(--violent-color);
+    border: 1px solid var(--violent-color);
+}
+.modal .primary{
+    padding: 10px 100px;
+    font-size: 14px;
+    /* background-color: #000;
+    color: #fff !important;
+    border: none;
+    box-sizing: border-box;
+    font-weight: 700;
+    padding: 10px 36px;
+    border-radius: 99px; */
+    background-color: #FFFFFF;
+    color: #000 !important;
+    border: none;
+    box-sizing: border-box;
+    font-weight: 700;
+    padding: 10px 10px;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    width:45%;
+}
+.modal .wallet i{font-size:30px;margin-bottom:20px;}
+.modal .wallet i:hover{color:#ff008e;transition: all 0.5s ease-in-out;}
+.modal .wallet p:hover{color:#ff008e;transition: all 0.5s ease-in-out;}
+.putonsale .item_imgs{max-height:250px;min-height:250px;border-radius:20px;}
+.putonsale .item_imgs img{max-width:100%;min-width:100%;min-height:250px;max-height:250px;object-fit:cover;border-radius:20px}
+.modal .modal-title{text-transform: capitalize !important;}
+.is_dark .modal .modal-title{color:#fff}
+.is_dark .modal p,.is_dark .modal h2{color:#fff}
+.is_dark .featured-countdown span{color:#fff}

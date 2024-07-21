@@ -111,7 +111,6 @@ const Signin = () => {
               <p className="mt-3">
                 Don't have account?{" "}
                 <Link className="link" to="/sign-up">
-                  {/* <Link className="link" to="/sign-up"> */}
                   Sign up
                 </Link>
               </p>

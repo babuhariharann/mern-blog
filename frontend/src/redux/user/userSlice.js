@@ -40,7 +40,7 @@ const userSlice = createSlice({
     signoutSuccess: (state, action) => {
       state.currentUser = null;
       state.error = null;
-      state.loading = null
+      state.loading = false
     }
   },
 });

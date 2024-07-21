@@ -9,24 +9,27 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./component/PrivateRoute";
 import OnlyAdminPrivateRoute from "./component/OnlyAdminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
+import Landing from "./pages/Landing";
 
 const App = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/landing" element={<Landing />} />
+
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dasWhboard" element={<Dashboard />} />
         </Route>
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path='/create-post' element={<CreatePost />} />
         </Route>
 
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

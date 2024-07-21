@@ -1,0 +1,11 @@
+import "../css/animate.css";
+import "../css/binasea.css";
+import "../css/bootstrap.css";
+import "../css/font-awesome.css";
+import "../css/responsive.css";
+import "../css/shortcodes.css";
+import "../css/style.css";
+import "../scss/responsive.scss";
+import "../scss/shortcodes.scss";
+import "../scss/style.scss";
+import "../css/swiper-bundle.min.css";
