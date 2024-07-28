@@ -96,7 +96,7 @@ export const fetchUpdatePostAPI = async (postId) => {
 /** update post api */
 
 export const updatePostAPI = async (postData, postId, userId) => {
-  console.log('postdata', postData)
+  console.log('postdata', postData);
   try {
     const response = await axios.put(`${localHostName}/api/post/updatepost/${postId}/${userId}`, postData);
     console.log('responsessss', response)
