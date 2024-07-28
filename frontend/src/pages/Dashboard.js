@@ -6,6 +6,7 @@ import DashProfile from '../component/DashProfile';
 /** local file import */
 
 import '../asset/css/dashboard.css'
+import DashPost from '../component/DashPost';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -26,6 +27,8 @@ const Dashboard = () => {
       </div>
       <div className='mainbar'>
         {tab === "profile" && <DashProfile />}
+        {tab === "post" && <DashPost />}
+
       </div>
 
     </div>

@@ -46,7 +46,12 @@ const DashSidebar = () => {
   return (
     <div>
       <button className={`${tab === "profile" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`}>
-        profile <div className='badge text-bg-warning'>
+        Profile <div className='badge text-bg-warning'>
+          {isAdmin ? "Admin" : "User"}
+        </div>
+      </button>
+      <button className={`${tab === "post" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`}>
+        Post <div className='badge text-bg-warning'>
           {isAdmin ? "Admin" : "User"}
         </div>
       </button>

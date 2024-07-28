@@ -26,6 +26,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser())
 
+
 ConnectDataBase();
 
 app.use("/api/user", userRouter);

@@ -5,7 +5,7 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  content: {
+  title: {
     type: String,
     required: true,
     unique: true
