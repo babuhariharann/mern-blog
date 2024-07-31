@@ -72,7 +72,6 @@ const DashPost = () => {
       if (deleteResponse.success) {
         setPost((prev) => prev.filter((post) => post._id !== postid))
       }
-
     } catch (error) {
       setError(error);
       console.log('Error while delete the post', error)

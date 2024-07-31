@@ -7,6 +7,7 @@ import DashProfile from '../component/DashProfile';
 
 import '../asset/css/dashboard.css'
 import DashPost from '../component/DashPost';
+import DashUser from '../component/DashUser';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -28,7 +29,7 @@ const Dashboard = () => {
       <div className='mainbar'>
         {tab === "profile" && <DashProfile />}
         {tab === "post" && <DashPost />}
-
+        {tab === 'user' && <DashUser />}
       </div>
 
     </div>

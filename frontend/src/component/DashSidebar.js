@@ -45,16 +45,21 @@ const DashSidebar = () => {
 
   return (
     <div>
-      <button className={`${tab === "profile" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`}>
+      <button className={`${tab === "profile" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`} onClick={() => navigate('/dashboard?tab=profile')}>
         Profile <div className='badge text-bg-warning'>
           {isAdmin ? "Admin" : "User"}
         </div>
       </button>
-      <button className={`${tab === "post" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`}>
-        Post <div className='badge text-bg-warning'>
-          {isAdmin ? "Admin" : "User"}
-        </div>
-      </button>
+      {currentUser.isAdmin && <button className={`${tab === "post" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`} onClick={() => navigate('/dashboard?tab=post')}>
+        Post
+      </button>}
+
+
+      {currentUser.isAdmin && <button className={`${tab === "post" ? "active" : ""} bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`} onClick={() => navigate('/dashboard?tab=user')}>
+        Users
+      </button>}
+
+
       <button className={` bg-transparent border-0 outline-0 d-flex align-items-center justify-content-between w-100`} onClick={handleSignout}>
         Sign out
       </button>

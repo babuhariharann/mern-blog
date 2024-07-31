@@ -99,7 +99,6 @@ export const DeleteUserAPI = async (id) => {
     const response = await axios.delete(`${localHostName}/api/user/delete/${id}`, { withCredentials: true })
     console.log('deleteresponse', response)
     return response?.data
-
   } catch (error) {
     return {
       success: false,
@@ -114,6 +113,55 @@ export const DeleteUserAPI = async (id) => {
 export const SignoutAPI = async () => {
   try {
     const response = await axios.post(`${localHostName}/api/user/signout`);
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}
+
+
+/** fetch users api */
+
+
+export const FetchUserAPI = async () => {
+  try {
+    const response = await axios.get(`${localHostName}/api/user/getusers`);
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}
+
+
+/** delete select user api */
+
+
+export const AdminDeleteUserAPI = async (id) => {
+  try {
+
+    const response = await axios.delete(`${localHostName}/api/user/admin-delete/${id}`)
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}
+
+
+/** show more user */
+
+export const ShowMoreUserAPI = async (startIndex) => {
+
+  try {
+    const response = await axios.get(`${localHostName}/api/user/getusers?start=${startIndex}`);
     return response?.data
   } catch (error) {
     return {

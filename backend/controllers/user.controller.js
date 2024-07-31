@@ -7,6 +7,45 @@ export const TestApi = (req, res) => {
 };
 
 
+/** get users */
+
+export const GetUser = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return next(ErrorHandler(400, 'You are not allowed to see all users'))
+  }
+  try {
+    const startIndex = parseInt(req.query.start) || 0;
+    const limitIndex = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.sort === "asc" ? 1 : -1;
+    const users = await User.find().sort({ updatedAt: sortDirection }).skip(startIndex).limit(limitIndex);
+
+    const totalUserCount = await User.countDocuments();
+
+    const now = new Date();
+
+    const oneMonthAgo = new Date(
+      now.getFullYear(), now.getMonth() - 1, now.getDate()
+    )
+
+    const lastMonthUsers = await User.countDocuments({
+      createdAt: {
+        $gte: oneMonthAgo
+      }
+    })
+
+    return res.status(200).json({
+      success: true,
+      message: "User fetch successfully",
+      totalUserCount,
+      users,
+      lastMonthUsers
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 /** update the user */
 
 export const UpdateUser = async (req, res, next) => {
@@ -75,6 +114,30 @@ export const DeleteUser = async (req, res, next) => {
     return res.status(200).json({ success: true, message: "User Deleted Successfully" })
   } catch (err) {
     return ErrorHandler(err)
+  }
+}
+
+/** delete admin user */
+
+export const AdminDeleteUser = async (req, res, next) => {
+
+  const deletedUserId = req.params.id
+  console.log('finduser', deletedUserId)
+
+  if (!req.user.isAdmin) {
+    return next(ErrorHandler(400, 'You are not allowed to delete this user'))
+  }
+  try {
+    const findUser = await User.findById(deletedUserId);
+    console.log('finduser', findUser)
+    if (!findUser) {
+      return next(ErrorHandler(404, 'Deleted user not found'))
+    } else {
+      await User.findByIdAndDelete(deletedUserId);
+      return res.status(200).json({ success: true, message: "User deleted successfully" })
+    }
+  } catch (error) {
+    next(error)
   }
 }
 

@@ -65,35 +65,36 @@ const UpdatePost = () => {
   }, [postId])
 
 
-  const handleCreatePost = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      setPublishError(null)
-      const createPostResponse = await CreatePostAPI(createPostData);
-      if (createPostResponse?.status) {
-        setLoading(false);
-        setPublishError(null)
-        navigate(`/post/${createPostResponse?.createdPost?.slug}`);
-      } else {
-        setLoading(false);
-        setPublishError(createPostResponse?.message);
-        return
-      }
-    } catch (error) {
-      setPublishError(error)
-    }
-  }
+  // const handleCreatePost = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     setLoading(true);
+  //     setPublishError(null)
+  //     const createPostResponse = await CreatePostAPI(createPostData);
+  //     if (createPostResponse?.status) {
+  //       setLoading(false);
+  //       setPublishError(null)
+  //       navigate(`/post/${createPostResponse?.createdPost?.slug}`);
+  //     } else {
+  //       setLoading(false);
+  //       setPublishError(createPostResponse?.message);
+  //       return
+  //     }
+  //   } catch (error) {
+  //     setPublishError(error)
+  //   }
+  // }
 
 
   /** update post function */
 
-  const handleUpdatePost = async () => {
+  const handleUpdatePost = async (e) => {
+    e.preventDefault()
     try {
       const updatePostResponse = await updatePostAPI(createPostData, postId, currentUser._id);
       if (updatePostResponse?.success) {
         setPublishError(null);
-        // navigate('/')
+        navigate('/dashboard?tab=post')
       }
       console.log('updateresponse', updatePostResponse)
     } catch (error) {
@@ -102,7 +103,6 @@ const UpdatePost = () => {
     }
   }
 
-  { console.log('createpost', createPostData) }
 
 
   /** react select function */
@@ -117,8 +117,8 @@ const UpdatePost = () => {
   return (
     <section className='py-5 create-post'>
       <div className='container'>
-        <form>
-          <h4>Create a Post</h4>
+        <form onSubmit={handleUpdatePost}>
+          <h4>Update a Post</h4>
           <div className='create-post__header'>
             <input
               className='p-3'
@@ -149,7 +149,6 @@ const UpdatePost = () => {
           <div className='create-post__button mt-3' >
             <button
               className='btn btn-warning w-100'
-              onClick={handleUpdatePost}
               type='submit'
               disabled={loading}>
               {loading ? "Loading..." : "Publish"}

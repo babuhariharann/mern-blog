@@ -20,13 +20,14 @@ const Header = () => {
     navigate("/sign-in");
   };
   const handleProfileNavigate = () => {
-    navigate('/dashboard?tab=profile')
+    navigate('/dashboard?tab=profile');
+    setShowProfileDetails(false)
   }
 
   /** signout functionality */
 
   const handleSignout = async () => {
-
+    setShowProfileDetails(false)
     try {
       const singoutResponse = await SignoutAPI();
       if (singoutResponse?.success) {
