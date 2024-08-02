@@ -19,6 +19,11 @@ export const GetUser = async (req, res, next) => {
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
     const users = await User.find().sort({ updatedAt: sortDirection }).skip(startIndex).limit(limitIndex);
 
+    const userWithoutPassword = users.map((user) => {
+      const { password, ...rest } = user._doc;
+      return rest
+    })
+
     const totalUserCount = await User.countDocuments();
 
     const now = new Date();
@@ -37,7 +42,7 @@ export const GetUser = async (req, res, next) => {
       success: true,
       message: "User fetch successfully",
       totalUserCount,
-      users,
+      users: userWithoutPassword,
       lastMonthUsers
     })
   } catch (error) {

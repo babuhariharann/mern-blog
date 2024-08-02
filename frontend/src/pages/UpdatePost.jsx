@@ -12,6 +12,7 @@ const UpdatePost = () => {
   const { postId } = useParams()
   console.log('postid', postId)
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false)
   const [publishError, setPublishError] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -44,17 +45,27 @@ const UpdatePost = () => {
   const handleFetchUpdatePost = async () => {
 
     try {
+      setPageLoading(true)
       const fetchUpdatepost = await fetchUpdatePostAPI(postId);
-      const post = fetchUpdatepost?.posts[0]
-      setCreatePostData(
-        {
-          title: post.title,
-          content: post.content,
-          category: categoryOptions.find(option => option.value === post.category),
-        }
-      )
-      setSelectedOption(categoryOptions.find(option => option.value === post.category))
+
+      if (fetchUpdatepost.success) {
+        const post = fetchUpdatepost?.posts[0];
+        console.log('postcontent', post)
+        setCreatePostData(
+          {
+            title: post?.title,
+            content: post.content,
+            category: categoryOptions.find(option => option.value === post.category),
+          }
+        )
+        setSelectedOption(categoryOptions.find(option => option.value === post.category));
+        setPageLoading(false)
+
+      }
+
     } catch (error) {
+      setPageLoading(false)
+
       setPublishError(error);
       console.log('Error while fetch updated post', error)
     }
@@ -62,7 +73,9 @@ const UpdatePost = () => {
 
   useEffect(() => {
     handleFetchUpdatePost()
-  }, [postId])
+  }, [postId]);
+
+  console.log('createPostData', createPostData)
 
 
   // const handleCreatePost = async (e) => {
@@ -117,46 +130,47 @@ const UpdatePost = () => {
   return (
     <section className='py-5 create-post'>
       <div className='container'>
-        <form onSubmit={handleUpdatePost}>
-          <h4>Update a Post</h4>
-          <div className='create-post__header'>
-            <input
-              className='p-3'
-              placeholder='Enter title'
-              name='title' type='text'
-              value={createPostData.title}
-              onChange={(e) => setCreatePostData({ ...createPostData, title: e.target.value })} />
-            <div>
-              <Select
-                value={selectedOption}
-                options={categoryOptions}
-                onChange={handleSelectChange}
-              />
+        {pageLoading ? <p>Loading...</p> : <>
+          <form onSubmit={handleUpdatePost}>
+            <h4>Update a Post</h4>
+            <div className='create-post__header'>
+              <input
+                className='p-3'
+                placeholder='Enter title'
+                name='title' type='text'
+                value={createPostData.title}
+                onChange={(e) => setCreatePostData({ ...createPostData, title: e.target.value })} />
+              <div>
+                <Select
+                  value={selectedOption}
+                  options={categoryOptions}
+                  onChange={handleSelectChange}
+                />
+              </div>
+
+            </div>
+            <div className='create-post__image-upload mt-4'>
+              <input type='file' accept='image/*' />
             </div>
 
-          </div>
-          <div className='create-post__image-upload mt-4'>
-            <input type='file' accept='image/*' />
-          </div>
+            <div className='create-post__react-quill mt-4'>
+              <ReactQuill
+                value={createPostData.content}
+                theme="snow"
+                onChange={(value) => setCreatePostData({ ...createPostData, content: value })} />
+            </div>
 
-          <div className='create-post__react-quill mt-4'>
-            <ReactQuill
-              value={createPostData.content}
-              theme="snow"
-              onChange={(value) => setCreatePostData({ ...createPostData, content: value })} />
-          </div>
-
-          <div className='create-post__button mt-3' >
-            <button
-              className='btn btn-warning w-100'
-              type='submit'
-              disabled={loading}>
-              {loading ? "Loading..." : "Publish"}
-            </button>
-          </div>
-        </form>
-        {publishError && <p className='text-danger'>{publishError
-        }</p>}
+            <div className='create-post__button mt-3' >
+              <button
+                className='btn btn-warning w-100'
+                type='submit'
+                disabled={loading}>
+                {loading ? "Loading..." : "Publish"}
+              </button>
+            </div>
+          </form>
+          {publishError && <p className='text-danger'>{publishError
+          }</p>}</>}
       </div>
     </section>
   )

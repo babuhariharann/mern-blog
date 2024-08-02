@@ -111,3 +111,23 @@ export const updatePostAPI = async (postData, postId, userId) => {
     }
   }
 }
+
+
+/** fetch blog post */
+
+
+export const FetchBlogPostAPI = async (slug) => {
+
+  try {
+
+    const response = await axios.get(`${localHostName}/api/post/getposts?slug=${slug}`);
+    return response?.data
+
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.date?.message ? error?.response?.data?.message
+        : error?.message,
+    }
+  }
+}
