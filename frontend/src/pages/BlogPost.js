@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { FetchBlogPost, FetchBlogPostAPI } from '../api/post';
+import CommentSection from '../component/CommentSection';
 
 const BlogPost = () => {
 
 
   const { slug } = useParams();
-  console.log('slugpaams', slug)
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -43,15 +43,17 @@ const BlogPost = () => {
 
   return (
     <div className='container'>
-      {loading ? <p>Loading...</p> : <div >
-
-        <h3>{fetchPost?.title}</h3>
-        <img className='img-fluid' src={fetchPost?.image} />
-      </div>}
-
-      <div dangerouslySetInnerHTML={{ __html: fetchPost && fetchPost.content }}>
-
-      </div>
+      {loading ? <p>Loading...</p> :
+        <div >
+          <h3>{fetchPost?.title}</h3>
+          <img className='img-fluid' src={fetchPost?.image} />
+          <div dangerouslySetInnerHTML={{ __html: fetchPost && fetchPost.content }}>
+          </div>
+          <div>
+            <CommentSection postId={fetchPost._id} />
+          </div>
+        </div>
+      }
     </div>
   )
 }

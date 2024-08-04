@@ -170,3 +170,17 @@ export const ShowMoreUserAPI = async (startIndex) => {
     }
   }
 }
+
+/** fetch user using id */
+
+export const FetchUserIdAPI = async (userId) => {
+  try {
+    const response = await axios.get(`${localHostName}/api/user/getusers/${userId}`);
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}

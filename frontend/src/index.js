@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 /** local file import */
 
 import "./index.css";
+import "./App.css";
 import App from "./App";
 
 /** redux */
