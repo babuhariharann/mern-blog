@@ -12,4 +12,12 @@
   padding-bottom: 20px;
 }
 
+.like_button svg {
+  color: white;
+}
+
+.like_button.liked svg {
+  color: #0ccbe2;
+}
+
 /* end of comments */

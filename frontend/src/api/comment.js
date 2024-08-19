@@ -46,3 +46,50 @@ export const FetchCommentAPI = async (postId) => {
     };
   }
 }
+
+/** like comments */
+
+export const LikeCommentAPI = async (commentId) => {
+  try {
+    const response = await axios.put(`${localHostName}/api/comment/like/${commentId}`);
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}
+
+
+/** update the comment */
+
+export const UpdateCommentAPI = async (commentId, content) => {
+  try {
+
+    const response = await axios.put(`${localHostName}/api/comment/editcomment/${commentId}`, {
+      content
+    });
+    return response?.data
+  } catch (error) {
+    return {
+      sucess: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}
+
+
+/** delete the comment */
+
+export const DeleteCommentAPI = async (commentId) => {
+  try {
+    const response = await axios.delete(`${localHostName}/api/comment/delete/${commentId}`);
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message ? error?.response?.data?.message : error?.message
+    }
+  }
+}

@@ -131,3 +131,20 @@ export const FetchBlogPostAPI = async (slug) => {
     }
   }
 }
+
+
+/** filter post */
+
+
+export const FilterPost = async (searchQuery) => {
+  try {
+    const response = await axios.get(`${localHostName}/api/post/getposts?${searchQuery}`);
+    return response?.data
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.date?.message ? error?.response?.data?.message
+        : error?.message,
+    }
+  }
+}

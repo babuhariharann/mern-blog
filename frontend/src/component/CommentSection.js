@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { CreateCommentAPI, FetchCommentAPI } from '../api/comment';
+import { CreateCommentAPI, DeleteCommentAPI, FetchCommentAPI, LikeCommentAPI, UpdateCommentAPI } from '../api/comment';
 import { Link, useNavigate } from 'react-router-dom';
 import Comment from './Comment';
 
@@ -14,7 +14,9 @@ const CommentSection = (props) => {
 
   const [error, setError] = useState(null);
   const [comment, setComment] = useState('')
-  const [commentData, setCommentData] = useState([])
+  const [commentData, setCommentData] = useState([]);
+
+  console.log('commentdata', commentData)
 
 
   /** post a comment */
@@ -52,6 +54,66 @@ const CommentSection = (props) => {
 
   }
 
+
+  /** handle Like */
+
+  const handleLike = async (commentId) => {
+    if (!currentUser) {
+      return navigate('/sign-in')
+    }
+    try {
+      const likeResponse = await LikeCommentAPI(commentId);
+      console.log('likeresponse', likeResponse)
+
+      if (likeResponse?.success) {
+        setCommentData(commentData.map((comment) => (
+          comment._id === commentId ? {
+            ...comment, likes: likeResponse?.comment?.likes, numberOfLikes: likeResponse?.comment?.numberOfLikes
+          } : comment
+        )))
+
+      }
+
+    } catch (error) {
+      console.log('error while like the comment', error)
+    }
+  }
+
+  /** handle save comment */
+
+  const handleUpdateComment = async (commentId, editContent) => {
+    try {
+      const updateCommentResponse = await UpdateCommentAPI(commentId, editContent);
+      if (updateCommentResponse?.success) {
+        setCommentData(commentData.map((comment) => (
+          comment._id === commentId ? {
+            ...comment, content: updateCommentResponse?.comment?.content
+          } : comment
+        )))
+      }
+    } catch (error) {
+      console.log('Error while update the comment', error)
+    }
+  }
+
+
+  /** handle delete comment */
+
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const deleteCommentResponse = await DeleteCommentAPI(commentId);
+
+      if (deleteCommentResponse?.success) {
+        setCommentData(prev => prev.filter(comment => comment._id !== commentId))
+      }
+
+    } catch (error) {
+      console.log('error while delete the comment', error)
+    }
+  }
+
+
   useEffect(() => {
     fetchComment()
   }, [postId])
@@ -75,7 +137,7 @@ const CommentSection = (props) => {
 
         {commentData && commentData.length ? commentData.map((value) =>
           <div className='mb-3 comment-separate' key={value._id}>
-            <Comment value={value} />
+            <Comment value={value} handleLike={handleLike} handleUpdateComment={handleUpdateComment} handleDeleteComment={handleDeleteComment} />
           </div>
         ) : <p>no data</p>}
 

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import "../asset/css/header.css";
 import { CiSearch } from "react-icons/ci";
@@ -10,10 +10,14 @@ import { signoutSuccess } from "../redux/user/userSlice";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const location = useLocation();
+
+  console.log('location', location)
 
   const { currentUser } = useSelector((state) => state?.user)
   // const { isAdmin } = currentUser
-  const [showProfileDetails, setShowProfileDetails] = useState(false)
+  const [showProfileDetails, setShowProfileDetails] = useState(false);
+  const [searchValue, setSearchValue] = useState('')
 
 
   const handleSignin = () => {
@@ -40,6 +44,26 @@ const Header = () => {
       console.log('Error while singout :', err)
     }
   }
+
+  /** search submit function */
+
+  const handleSearhSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchValue);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`)
+  }
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromURL = urlParams.get('searchTerm');
+    if (searchTermFromURL) {
+      setSearchValue(searchTermFromURL)
+    }
+
+
+  }, [location.search])
   return (
     <header className="header">
       <div className="container h-100">
@@ -48,16 +72,18 @@ const Header = () => {
             MERN
           </Link>
 
-          <div className="input_wraper d-flex align-items-center justify-content-betweeen gap-2">
+          <form className="input_wraper d-flex align-items-center justify-content-betweeen gap-2" onSubmit={handleSearhSubmit}>
             <input
+              value={searchValue}
               type="text"
               placeholder="Search"
               className="border-0 outline-0 bg-transparent"
+              onChange={(e) => setSearchValue(e.target.value)}
             />
-            <button className="border-0 outline-0 bg-transparent">
+            <button type="button" className="border-0 outline-0 bg-transparent">
               <CiSearch fill="#e74694" fontSize={20} />
             </button>
-          </div>
+          </form>
 
           <div className="page_navigation d-flex align-items-center gap-3">
             <Link to="/">Home</Link>
